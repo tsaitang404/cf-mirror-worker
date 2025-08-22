@@ -154,7 +154,336 @@ code.language-shell {
 </div>
 
 <h3>镜像源使用指南 / Mirror Usage Guide</h3>
-<!-- ...原有 details 内容省略... -->
+
+<details>
+<summary><strong>语言包管理器 / Language Package Managers</strong></summary>
+<div class="mirror-section">
+  <h4>PyPI (Python) 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 推荐长期配置 / Recommended for persistent use
+pip config set global.index-url https://mirrors.tsaitang.com/language/pypi/
+# 或写入 ~/.pip/pip.conf / Or add to ~/.pip/pip.conf
+[global]
+index-url = https://mirrors.tsaitang.com/language/pypi/
+
+# 临时使用 / Temporary usage
+pip install -i https://mirrors.tsaitang.com/language/pypi/ package_name
+</code></pre>
+  </div>
+  
+  <h4>NPM (Node.js) 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell">npm config set registry https://mirrors.tsaitang.com/language/npm/
+# 或者临时使用
+npm install --registry=https://mirrors.tsaitang.com/language/npm/ 包名
+</code></pre>
+  </div>
+  
+  <h4>Maven (Java) 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-xml">&lt;mirror&gt;
+  &lt;id&gt;mirror&lt;/id&gt;
+  &lt;name&gt;maven mirror&lt;/name&gt;
+  &lt;url&gt;https://mirrors.tsaitang.com/language/maven/&lt;/url&gt;
+  &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+</code></pre>
+  </div>
+  
+  <h4>Gradle 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-groovy">// 在 build.gradle 中添加
+repositories {
+    maven {
+        url "https://mirrors.tsaitang.com/language/gradle/"
+    }
+}
+</code></pre>
+  </div>
+  
+  <h4>Cargo (Rust) 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-toml"># 在 ~/.cargo/config 中添加
+[source.crates-io]
+replace-with = "mirror"
+
+[source.mirror]
+registry = "https://mirrors.tsaitang.com/language/cargo/"
+</code></pre>
+  </div>
+  
+  <h4>RubyGems 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell">gem sources --add https://mirrors.tsaitang.com/language/rubygems/ --remove https://rubygems.org/
+# 查看当前源
+gem sources -l
+</code></pre>
+  </div>
+  
+  <h4>Composer (PHP) 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell">composer config -g repo.packagist composer https://mirrors.tsaitang.com/language/composer/
+</code></pre>
+  </div>
+</div>
+</details>
+
+<details>
+<summary><strong>操作系统 / Operating Systems</strong></summary>
+<div class="mirror-section">
+  <h4>CentOS 换源命令</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 进入 yum 源目录 / Enter yum repo directory
+cd /etc/yum.repos.d/
+# 注释 mirrorlist / Comment out mirrorlist
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+# 替换 baseurl / Replace baseurl
+sed -i 's|baseurl=http://.*centos.org|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
+sed -i 's|#baseurl=https://mirrors.tsaitang.com/system/centos|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
+</code></pre>
+  </div>
+  
+  <h4>CentOS Stream 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换为镜像源
+sed -i 's|baseurl=http://mirror.stream.centos.org|baseurl=https://mirrors.tsaitang.com/system/centos-stream|g' /etc/yum.repos.d/CentOS-Stream-*.repo
+</code></pre>
+  </div>
+  
+  <h4>Arch Linux 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 编辑 /etc/pacman.d/mirrorlist，添加：
+Server = https://mirrors.tsaitang.com/system/archlinux/$repo/os/$arch
+</code></pre>
+  </div>
+  
+  <h4>Arch4edu 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 编辑 /etc/pacman.conf，添加：
+[arch4edu]
+Server = https://mirrors.tsaitang.com/system/arch4edu/$arch
+</code></pre>
+  </div>
+  
+  <h4>BlackArch 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 编辑 /etc/pacman.conf，添加：
+[blackarch]
+Server = https://mirrors.tsaitang.com/system/blackarch/$repo/$arch
+</code></pre>
+  </div>
+  
+  <h4>Ubuntu apt 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 sources.list
+sudo sed -i 's@http://.*archive.ubuntu.com@https://mirrors.tsaitang.com/system/ubuntu@g' /etc/apt/sources.list
+sudo sed -i 's@http://.*security.ubuntu.com@https://mirrors.tsaitang.com/system/ubuntu@g' /etc/apt/sources.list
+</code></pre>
+  </div>
+  
+  <h4>Debian apt 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 sources.list
+sudo sed -i 's/deb.debian.org/mirrors.tsaitang.com\/system\/debian/g' /etc/apt/sources.list
+</code></pre>
+  </div>
+  
+  <h4>Alpine apk 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 repositories
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.tsaitang.com\/system\/alpine/g' /etc/apk/repositories
+</code></pre>
+  </div>
+  
+  <h4>Fedora 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 备份原有配置
+sudo mv /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.bak
+sudo mv /etc/yum.repos.d/fedora-updates.repo /etc/yum.repos.d/fedora-updates.repo.bak
+
+# 创建新的配置文件
+sudo bash -c 'cat > /etc/yum.repos.d/fedora.repo << EOF
+[fedora]
+name=Fedora \$releasever - \$basearch
+baseurl=https://mirrors.tsaitang.com/system/fedora/releases/\$releasever/Everything/\$basearch/os/
+enabled=1
+countme=1
+metadata_expire=7d
+repo_gpgcheck=0
+type=rpm
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-\$releasever-\$basearch
+skip_if_unavailable=False
+EOF'
+</code></pre>
+  </div>
+  
+  <h4>openSUSE 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换仓库
+sudo zypper mr -da
+sudo zypper ar -fc https://mirrors.tsaitang.com/system/opensuse/distribution/leap/\$releasever/repo/oss mirrors-oss
+sudo zypper ar -fc https://mirrors.tsaitang.com/system/opensuse/distribution/leap/\$releasever/repo/non-oss mirrors-non-oss
+sudo zypper ar -fc https://mirrors.tsaitang.com/system/opensuse/update/leap/\$releasever/oss mirrors-update
+sudo zypper ar -fc https://mirrors.tsaitang.com/system/opensuse/update/leap/\$releasever/non-oss mirrors-update-non-oss
+</code></pre>
+  </div>
+  
+  <h4>Rocky Linux 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换基础仓库
+sudo sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/Rocky-*.repo
+sudo sed -i 's|^#baseurl=http://dl.rockylinux.org/\$contentdir|baseurl=https://mirrors.tsaitang.com/system/rocky|g' /etc/yum.repos.d/Rocky-*.repo
+</code></pre>
+  </div>
+  
+  <h4>AlmaLinux 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换基础仓库
+sudo sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/almalinux*.repo
+sudo sed -i 's|^#baseurl=https://repo.almalinux.org|baseurl=https://mirrors.tsaitang.com/system/almalinux|g' /etc/yum.repos.d/almalinux*.repo
+</code></pre>
+  </div>
+</div>
+</details>
+
+<details>
+<summary><strong>容器与虚拟化 / Containers & Virtualization</strong></summary>
+<div class="mirror-section">
+  <h4>Docker 镜像配置</h4>
+  <div class="command-container">
+  <pre><code class="language-json"># 编辑 /etc/docker/daemon.json
+{
+  "registry-mirrors": ["https://mirrors.tsaitang.com/container/docker/"]
+}
+
+# 重启 Docker 服务
+systemctl restart docker
+</code></pre>
+  </div>
+  
+  <h4>Docker Hub 使用</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 拉取镜像示例
+docker pull mirrors.tsaitang.com/container/dockerhub/library/ubuntu:latest
+</code></pre>
+  </div>
+  
+  <h4>Google Container Registry (GCR) 使用</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 拉取镜像示例
+docker pull mirrors.tsaitang.com/container/gcr/google-containers/kubernetes-dashboard-amd64:v1.10.1
+</code></pre>
+  </div>
+  
+  <h4>Kubernetes GCR 使用</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 拉取镜像示例
+docker pull mirrors.tsaitang.com/container/k8s/kube-apiserver:v1.22.0
+</code></pre>
+  </div>
+  
+  <h4>Quay.io 使用</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 拉取镜像示例
+docker pull mirrors.tsaitang.com/container/quay/coreos/etcd:v3.4.15
+</code></pre>
+  </div>
+  
+  <h4>GitHub Container Registry 使用</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 拉取镜像示例
+docker pull mirrors.tsaitang.com/container/ghcr/owner/image:tag
+</code></pre>
+  </div>
+</div>
+</details>
+
+<details>
+<summary><strong>工具 / Tools</strong></summary>
+<div class="mirror-section">
+  <h4>Homebrew 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 brew.git
+git -C "$(brew --repo)" remote set-url origin https://mirrors.tsaitang.com/tool/homebrew/brew.git
+
+# 替换 homebrew-core.git
+git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tsaitang.com/tool/homebrew/homebrew-core.git
+
+# 替换 Bottles 源
+echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tsaitang.com/tool/homebrew/bottles' >> ~/.zshrc
+source ~/.zshrc
+</code></pre>
+  </div>
+  
+  <h4>Anaconda 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 添加 Anaconda 镜像源
+conda config --add channels https://mirrors.tsaitang.com/tool/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tsaitang.com/tool/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
+</code></pre>
+  </div>
+  
+  <h4>Flutter 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 设置环境变量
+export FLUTTER_STORAGE_BASE_URL=https://mirrors.tsaitang.com/tool/flutter
+export PUB_HOSTED_URL=https://mirrors.tsaitang.com/language/dart-pub
+</code></pre>
+  </div>
+  
+  <h4>WinGet 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-powershell"># 设置 WinGet 源
+winget source add -n "Mirror" -a "https://mirrors.tsaitang.com/tool/winget"
+
+# 从镜像源安装软件
+winget install -s "Mirror" 软件名
+</code></pre>
+  </div>
+  
+  <h4>Chocolatey 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-powershell"># 设置 Chocolatey 源
+choco source add -n=mirror -s="https://mirrors.tsaitang.com/tool/chocolatey" --priority=1
+
+# 安装软件
+choco install 软件名 --source=mirror
+</code></pre>
+  </div>
+  
+  <h4>Scoop 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-powershell"># 更改 Scoop 源
+scoop config SCOOP_REPO https://mirrors.tsaitang.com/tool/scoop
+
+# 更新
+scoop update
+</code></pre>
+  </div>
+  
+  <h4>MSYS2 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 编辑 /etc/pacman.d/mirrorlist.msys
+Server = https://mirrors.tsaitang.com/tool/msys2/msys/$arch/
+
+# 编辑 /etc/pacman.d/mirrorlist.mingw32
+Server = https://mirrors.tsaitang.com/tool/msys2/mingw/i686/
+
+# 编辑 /etc/pacman.d/mirrorlist.mingw64
+Server = https://mirrors.tsaitang.com/tool/msys2/mingw/x86_64/
+</code></pre>
+  </div>
+  
+  <h4>Cygwin 配置</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 在 setup.exe 中设置镜像源
+https://mirrors.tsaitang.com/tool/cygwin/
+</code></pre>
+  </div>
+</div>
+</details>
 
 <!-- 可引用外部 JS 示例 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
