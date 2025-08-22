@@ -1,0 +1,6 @@
+name = "mirror"
+main = "cf-mirror-worker.js"
+compatibility_date = "2025-08-22"
+workers_dev = true
+route = ""
+account_id = ""
