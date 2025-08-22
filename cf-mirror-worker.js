@@ -34,8 +34,13 @@ code.language-shell {
 <h3>常用路径 / Useful Paths</h3>
 <ul>
   <li>PyPI 镜像 / PyPI Mirror: <a href="/language/pypi/simple/pip/">/language/pypi/simple/pip/</a></li>
+  <li>NPM 镜像 / NPM Mirror: <a href="/language/npm/">/language/npm/</a></li>
+  <li>Maven 镜像 / Maven Mirror: <a href="/language/maven/">/language/maven/</a></li>
+  <li>Docker 镜像 / Docker Mirror: <a href="/container/docker/">/container/docker/</a></li>
   <li>CentOS 镜像 / CentOS Mirror: <a href="/system/centos/7.9.2009/os/x86_64/">/system/centos/7.9.2009/os/x86_64/</a></li>
   <li>CentOS Stream 镜像 / CentOS Stream Mirror: <a href="/system/centos-stream/">/system/centos-stream/</a></li>
+  <li>Ubuntu 镜像 / Ubuntu Mirror: <a href="/system/ubuntu/">/system/ubuntu/</a></li>
+  <li>Alpine 镜像 / Alpine Mirror: <a href="/system/alpine/">/system/alpine/</a></li>
 </ul>
 <h3>CentOS 换源命令 / CentOS Mirror Switch</h3>
 <div class="command-container">
@@ -74,12 +79,71 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 </script>
+<details><summary>使用指南 / Usage Guide</summary>
+<h3>NPM 镜像使用方法 / How to use NPM Mirror</h3>
+<div class="command-container">
+<pre><code class="language-shell">npm config set registry https://mirrors.tsaitang.com/language/npm/
+# 或者临时使用
+npm install --registry=https://mirrors.tsaitang.com/language/npm/ 包名
+</code></pre>
+</div>
+
+<h3>Maven 镜像使用方法 / How to use Maven Mirror</h3>
+<div class="command-container">
+<pre><code class="language-xml">&lt;mirror&gt;
+  &lt;id&gt;mirror&lt;/id&gt;
+  &lt;name&gt;maven mirror&lt;/name&gt;
+  &lt;url&gt;https://mirrors.tsaitang.com/language/maven/&lt;/url&gt;
+  &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+</code></pre>
+</div>
+
+<h3>Docker 镜像使用方法 / How to use Docker Mirror</h3>
+<div class="command-container">
+<pre><code class="language-json">{
+  "registry-mirrors": ["https://mirrors.tsaitang.com/container/docker/"]
+}
+</code></pre>
+</div>
+
+<h3>Ubuntu apt 配置 / Ubuntu apt Configuration</h3>
+<div class="command-container">
+<pre><code class="language-shell"># 替换 sources.list
+sudo sed -i 's@http://.*archive.ubuntu.com@https://mirrors.tsaitang.com/system/ubuntu@g' /etc/apt/sources.list
+sudo sed -i 's@http://.*security.ubuntu.com@https://mirrors.tsaitang.com/system/ubuntu@g' /etc/apt/sources.list
+</code></pre>
+</div>
+
+<h3>Alpine apk 配置 / Alpine apk Configuration</h3>
+<div class="command-container">
+<pre><code class="language-shell"># 替换 repositories
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.tsaitang.com\/system\/alpine/g' /etc/apk/repositories
+</code></pre>
+</div>
+
+<h3>Debian apt 配置 / Debian apt Configuration</h3>
+<div class="command-container">
+<pre><code class="language-shell"># 替换 sources.list
+sudo sed -i 's/deb.debian.org/mirrors.tsaitang.com\/system\/debian/g' /etc/apt/sources.list
+</code></pre>
+</div>
+</details>
 <hr>
 <details><summary>FAQ / 常见问题</summary>
 <ul>
-  <li>部分源站（如 PyPI）可能限制 Worker 代理，建议优先用于 CentOS 镜像等静态资源。</li>
-  <li>代理流量受 Cloudflare Worker 免费额度限制。</li>
-  <li>如需扩展其他镜像源，请在 <code>proxyMap</code> 中添加规则。</li>
+  <li><strong>Q: 为什么有些镜像访问较慢或无法访问？</strong><br>
+      A: 部分源站（如 PyPI, Docker Hub）可能限制 Worker 代理，建议优先用于静态资源镜像。</li>
+  <li><strong>Q: 有使用限制吗？</strong><br>
+      A: 代理流量受 Cloudflare Worker 免费额度限制（每天 100,000 请求）。</li>
+  <li><strong>Q: 支持哪些镜像？</strong><br>
+      A: 目前支持语言类（PyPI, NPM, Maven等）、系统类（CentOS, Ubuntu, Debian等）、容器类（Docker, GCR等）和工具类（Homebrew, Anaconda等）镜像。</li>
+  <li><strong>Q: 如何添加新的镜像源？</strong><br>
+      A: 在 <code>proxyMap</code> 数组中添加新规则，指定前缀路径和目标URL。</li>
+  <li><strong>Q: 如何部署自己的镜像？</strong><br>
+      A: 在 Cloudflare 上注册账号，创建 Worker，复制此代码并修改域名即可部署。</li>
+  <li><strong>Q: 有SSL/TLS支持吗？</strong><br>
+      A: 是的，所有请求都通过 Cloudflare 的 HTTPS 加密传输。</li>
   <li>For more details, see <a href="https://github.com/tsaitang404/cf-mirror-worker">GitHub</a>.</li>
 </ul>
 </details>
@@ -88,9 +152,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
 `;
 
 const proxyMap = [
+  // 语言类镜像源
   { prefix: '/language/pypi/', target: 'https://pypi.org/simple', host: 'pypi.org', sni: true },
+  { prefix: '/language/npm/', target: 'https://registry.npmjs.org', host: 'registry.npmjs.org', sni: true },
+  { prefix: '/language/maven/', target: 'https://repo1.maven.org/maven2', host: 'repo1.maven.org', sni: true },
+  { prefix: '/language/gradle/', target: 'https://services.gradle.org', host: 'services.gradle.org', sni: true },
+  { prefix: '/language/composer/', target: 'https://packagist.org', host: 'packagist.org', sni: true },
+  { prefix: '/language/cargo/', target: 'https://crates.io', host: 'crates.io', sni: true },
+  { prefix: '/language/rubygems/', target: 'https://rubygems.org', host: 'rubygems.org', sni: true },
+  
+  // 系统类镜像源
   { prefix: '/system/centos/', target: 'http://vault.centos.org', host: 'vault.centos.org' },
-  { prefix: '/system/centos-stream/', target: 'http://mirror.stream.centos.org', host: 'mirror.stream.centos.org' }
+  { prefix: '/system/centos-stream/', target: 'http://mirror.stream.centos.org', host: 'mirror.stream.centos.org' },
+  { prefix: '/system/ubuntu/', target: 'http://archive.ubuntu.com', host: 'archive.ubuntu.com' },
+  { prefix: '/system/debian/', target: 'http://deb.debian.org', host: 'deb.debian.org' },
+  { prefix: '/system/alpine/', target: 'http://dl-cdn.alpinelinux.org', host: 'dl-cdn.alpinelinux.org' },
+  { prefix: '/system/archlinux/', target: 'https://mirrors.edge.kernel.org/archlinux', host: 'mirrors.edge.kernel.org' },
+  { prefix: '/system/fedora/', target: 'https://download.fedoraproject.org', host: 'download.fedoraproject.org', sni: true },
+  
+  // 容器/虚拟化类镜像
+  { prefix: '/container/docker/', target: 'https://registry-1.docker.io', host: 'registry-1.docker.io', sni: true },
+  { prefix: '/container/dockerhub/', target: 'https://hub.docker.com', host: 'hub.docker.com', sni: true },
+  { prefix: '/container/gcr/', target: 'https://gcr.io', host: 'gcr.io', sni: true },
+  { prefix: '/container/quay/', target: 'https://quay.io', host: 'quay.io', sni: true },
+  { prefix: '/container/k8s/', target: 'https://k8s.gcr.io', host: 'k8s.gcr.io', sni: true },
+  
+  // 工具类镜像
+  { prefix: '/tool/homebrew/', target: 'https://brew.sh', host: 'brew.sh', sni: true },
+  { prefix: '/tool/anaconda/', target: 'https://repo.anaconda.com', host: 'repo.anaconda.com', sni: true },
+  { prefix: '/tool/flutter/', target: 'https://storage.googleapis.com/flutter_infra_release', host: 'storage.googleapis.com', sni: true }
 ];
 
 async function handleRequest(request) {
