@@ -24,25 +24,139 @@ code.language-shell {
   border-left: 4px solid #0366d6;
   padding-left: 10px;
 }
+.mirror-section {
+  margin: 20px 0;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 15px;
+  background-color: #f6f8fa;
+}
+.mirror-section h3 {
+  margin-top: 0;
+  color: #0366d6;
+  border-bottom: 1px solid #e1e4e8;
+  padding-bottom: 8px;
+}
+.mirror-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.mirror-item {
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+.mirror-item:hover {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
 </style>
 </head>
 <body>
 <h1>Cloudflare Worker 镜像代理 <span style="font-size:0.7em;">(Universal Mirror Proxy)</span></h1>
-<p>本项目支持 PyPI、CentOS、CentOS Stream 等常用镜像源，部署于 Cloudflare Workers。<br>
-<em>This project provides reverse proxy for PyPI, CentOS, CentOS Stream and more, powered by Cloudflare Workers.</em></p>
+<p>本项目支持语言包管理器、操作系统、容器工具等多种镜像源，部署于 Cloudflare Workers。<br>
+<em>This project provides a universal reverse proxy for various package managers, OS repos, and more, powered by Cloudflare Workers.</em></p>
 <hr>
-<h3>常用路径 / Useful Paths</h3>
-<ul>
-  <li>PyPI 镜像 / PyPI Mirror: <a href="/language/pypi/simple/pip/">/language/pypi/simple/pip/</a></li>
-  <li>NPM 镜像 / NPM Mirror: <a href="/language/npm/">/language/npm/</a></li>
-  <li>Maven 镜像 / Maven Mirror: <a href="/language/maven/">/language/maven/</a></li>
-  <li>Docker 镜像 / Docker Mirror: <a href="/container/docker/">/container/docker/</a></li>
-  <li>CentOS 镜像 / CentOS Mirror: <a href="/system/centos/7.9.2009/os/x86_64/">/system/centos/7.9.2009/os/x86_64/</a></li>
-  <li>CentOS Stream 镜像 / CentOS Stream Mirror: <a href="/system/centos-stream/">/system/centos-stream/</a></li>
-  <li>Ubuntu 镜像 / Ubuntu Mirror: <a href="/system/ubuntu/">/system/ubuntu/</a></li>
-  <li>Alpine 镜像 / Alpine Mirror: <a href="/system/alpine/">/system/alpine/</a></li>
-</ul>
-<h3>CentOS 换源命令 / CentOS Mirror Switch</h3>
+<h2>镜像源导航 / Mirror Navigation</h2>
+
+<div class="mirror-section">
+  <h3>语言包管理器 / Language Package Managers</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/language/pypi/simple/pip/">PyPI (Python)</a></div>
+    <div class="mirror-item"><a href="/language/npm/">NPM (Node.js)</a></div>
+    <div class="mirror-item"><a href="/language/maven/">Maven (Java)</a></div>
+    <div class="mirror-item"><a href="/language/gradle/">Gradle</a></div>
+    <div class="mirror-item"><a href="/language/composer/">Composer (PHP)</a></div>
+    <div class="mirror-item"><a href="/language/cargo/">Cargo (Rust)</a></div>
+    <div class="mirror-item"><a href="/language/rubygems/">RubyGems</a></div>
+    <div class="mirror-item"><a href="/language/cpan/">CPAN (Perl)</a></div>
+    <div class="mirror-item"><a href="/language/ctan/">CTAN (TeX)</a></div>
+    <div class="mirror-item"><a href="/language/julia/">Julia</a></div>
+  </div>
+</div>
+
+<div class="mirror-section">
+  <h3>操作系统 / Operating Systems</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/system/centos/7.9.2009/os/x86_64/">CentOS</a></div>
+    <div class="mirror-item"><a href="/system/centos-stream/">CentOS Stream</a></div>
+    <div class="mirror-item"><a href="/system/ubuntu/">Ubuntu</a></div>
+    <div class="mirror-item"><a href="/system/debian/">Debian</a></div>
+    <div class="mirror-item"><a href="/system/alpine/">Alpine</a></div>
+    <div class="mirror-item"><a href="/system/archlinux/">Arch Linux</a></div>
+    <div class="mirror-item"><a href="/system/arch4edu/">Arch4edu</a></div>
+    <div class="mirror-item"><a href="/system/blackarch/">BlackArch</a></div>
+    <div class="mirror-item"><a href="/system/fedora/">Fedora</a></div>
+    <div class="mirror-item"><a href="/system/opensuse/">openSUSE</a></div>
+    <div class="mirror-item"><a href="/system/kali/">Kali Linux</a></div>
+    <div class="mirror-item"><a href="/system/raspbian/">Raspbian</a></div>
+    <div class="mirror-item"><a href="/system/gentoo/">Gentoo</a></div>
+    <div class="mirror-item"><a href="/system/freebsd/">FreeBSD</a></div>
+    <div class="mirror-item"><a href="/system/openbsd/">OpenBSD</a></div>
+    <div class="mirror-item"><a href="/system/void/">Void Linux</a></div>
+    <div class="mirror-item"><a href="/system/rocky/">Rocky Linux</a></div>
+    <div class="mirror-item"><a href="/system/almalinux/">AlmaLinux</a></div>
+  </div>
+</div>
+
+<div class="mirror-section">
+  <h3>容器/虚拟化 / Containers & Virtualization</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/container/docker/">Docker Registry</a></div>
+    <div class="mirror-item"><a href="/container/dockerhub/">Docker Hub</a></div>
+    <div class="mirror-item"><a href="/container/gcr/">Google Container Registry</a></div>
+    <div class="mirror-item"><a href="/container/quay/">Quay.io</a></div>
+    <div class="mirror-item"><a href="/container/k8s/">Kubernetes GCR</a></div>
+    <div class="mirror-item"><a href="/container/ghcr/">GitHub Container Registry</a></div>
+  </div>
+</div>
+
+<div class="mirror-section">
+  <h3>工具 / Tools</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/tool/homebrew/">Homebrew</a></div>
+    <div class="mirror-item"><a href="/tool/anaconda/">Anaconda</a></div>
+    <div class="mirror-item"><a href="/tool/flutter/">Flutter</a></div>
+    <div class="mirror-item"><a href="/tool/winget/">WinGet</a></div>
+    <div class="mirror-item"><a href="/tool/chocolatey/">Chocolatey</a></div>
+    <div class="mirror-item"><a href="/tool/scoop/">Scoop</a></div>
+    <div class="mirror-item"><a href="/tool/msys2/">MSYS2</a></div>
+    <div class="mirror-item"><a href="/tool/cygwin/">Cygwin</a></div>
+  </div>
+</div>
+
+<div class="mirror-section">
+  <h3>社区源 / Community Repositories</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/aur/">AUR (Arch User Repository)</a></div>
+  </div>
+</div>
+
+<div class="mirror-section">
+  <h3>开源项目 / Open Source Projects</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/opensource/kernel/">Linux Kernel</a></div>
+    <div class="mirror-item"><a href="/opensource/gnu/">GNU</a></div>
+    <div class="mirror-item"><a href="/opensource/kde/">KDE</a></div>
+    <div class="mirror-item"><a href="/opensource/gnome/">GNOME</a></div>
+    <div class="mirror-item"><a href="/opensource/apache/">Apache</a></div>
+    <div class="mirror-item"><a href="/opensource/ffmpeg/">FFmpeg</a></div>
+  </div>
+</div>
+
+<div class="mirror-section">
+  <h3>浏览器 / Browsers</h3>
+  <div class="mirror-grid">
+    <div class="mirror-item"><a href="/browser/chrome/">Chrome</a></div>
+    <div class="mirror-item"><a href="/browser/firefox/">Firefox</a></div>
+    <div class="mirror-item"><a href="/browser/edge/">Edge</a></div>
+  </div>
+</div>
+
+<h3>常用系统镜像使用指南 / Popular OS Mirror Usage</h3>
 <div class="command-container">
 <pre><code class="language-shell"># 进入 yum 源目录 / Enter yum repo directory
 cd /etc/yum.repos.d/
@@ -51,6 +165,37 @@ sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 # 替换 baseurl / Replace baseurl
 sed -i 's|baseurl=http://.*centos.org|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
 sed -i 's|#baseurl=https://mirrors.tsaitang.com/system/centos|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
+</code></pre>
+</div>
+
+<h3>Arch Linux 和衍生版使用指南 / Arch Linux Usage</h3>
+<div class="command-container">
+<pre><code class="language-shell"># Arch Linux 官方源
+# 编辑 /etc/pacman.d/mirrorlist，添加：
+Server = https://mirrors.tsaitang.com/system/archlinux/$repo/os/$arch
+
+# Arch4edu 源
+# 编辑 /etc/pacman.conf，添加：
+[arch4edu]
+Server = https://mirrors.tsaitang.com/system/arch4edu/$arch
+
+# BlackArch 源
+# 编辑 /etc/pacman.conf，添加：
+[blackarch]
+Server = https://mirrors.tsaitang.com/system/blackarch/$repo/$arch
+
+# 更新包数据库
+sudo pacman -Syy
+</code></pre>
+</div>
+
+<h3>WinGet 使用指南 / WinGet Usage</h3>
+<div class="command-container">
+<pre><code class="language-powershell"># 设置 WinGet 源
+winget source add -n "Mirror" -a "https://mirrors.tsaitang.com/tool/winget"
+
+# 从镜像源安装软件
+winget install -s "Mirror" 软件名
 </code></pre>
 </div>
 
@@ -64,11 +209,6 @@ index-url = https://mirrors.tsaitang.com/language/pypi/
 </code></pre>
 </div>
 
-<h3>临时使用 pip 镜像 / Temporary pip mirror</h3>
-<div class="command-container">
-<pre><code class="language-shell">pip install -i https://mirrors.tsaitang.com/language/pypi/ package_name
-</code></pre>
-</div>
 <!-- 可引用外部 JS 示例 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
 <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.js"></script>
@@ -160,6 +300,9 @@ const proxyMap = [
   { prefix: '/language/composer/', target: 'https://packagist.org', host: 'packagist.org', sni: true },
   { prefix: '/language/cargo/', target: 'https://crates.io', host: 'crates.io', sni: true },
   { prefix: '/language/rubygems/', target: 'https://rubygems.org', host: 'rubygems.org', sni: true },
+  { prefix: '/language/cpan/', target: 'https://www.cpan.org', host: 'www.cpan.org', sni: true },
+  { prefix: '/language/ctan/', target: 'https://ctan.org', host: 'ctan.org', sni: true },
+  { prefix: '/language/julia/', target: 'https://pkg.julialang.org', host: 'pkg.julialang.org', sni: true },
   
   // 系统类镜像源
   { prefix: '/system/centos/', target: 'http://vault.centos.org', host: 'vault.centos.org' },
@@ -168,7 +311,18 @@ const proxyMap = [
   { prefix: '/system/debian/', target: 'http://deb.debian.org', host: 'deb.debian.org' },
   { prefix: '/system/alpine/', target: 'http://dl-cdn.alpinelinux.org', host: 'dl-cdn.alpinelinux.org' },
   { prefix: '/system/archlinux/', target: 'https://mirrors.edge.kernel.org/archlinux', host: 'mirrors.edge.kernel.org' },
+  { prefix: '/system/arch4edu/', target: 'https://mirrors.tuna.tsinghua.edu.cn/arch4edu', host: 'mirrors.tuna.tsinghua.edu.cn' },
+  { prefix: '/system/blackarch/', target: 'https://mirrors.tuna.tsinghua.edu.cn/blackarch', host: 'mirrors.tuna.tsinghua.edu.cn' },
   { prefix: '/system/fedora/', target: 'https://download.fedoraproject.org', host: 'download.fedoraproject.org', sni: true },
+  { prefix: '/system/opensuse/', target: 'http://download.opensuse.org', host: 'download.opensuse.org' },
+  { prefix: '/system/kali/', target: 'http://http.kali.org', host: 'http.kali.org' },
+  { prefix: '/system/raspbian/', target: 'http://archive.raspbian.org', host: 'archive.raspbian.org' },
+  { prefix: '/system/gentoo/', target: 'https://gentoo.org/downloads', host: 'gentoo.org', sni: true },
+  { prefix: '/system/freebsd/', target: 'https://download.freebsd.org', host: 'download.freebsd.org', sni: true },
+  { prefix: '/system/openbsd/', target: 'https://cdn.openbsd.org', host: 'cdn.openbsd.org', sni: true },
+  { prefix: '/system/void/', target: 'https://alpha.de.repo.voidlinux.org', host: 'alpha.de.repo.voidlinux.org', sni: true },
+  { prefix: '/system/rocky/', target: 'https://download.rockylinux.org', host: 'download.rockylinux.org', sni: true },
+  { prefix: '/system/almalinux/', target: 'https://repo.almalinux.org', host: 'repo.almalinux.org', sni: true },
   
   // 容器/虚拟化类镜像
   { prefix: '/container/docker/', target: 'https://registry-1.docker.io', host: 'registry-1.docker.io', sni: true },
@@ -176,11 +330,33 @@ const proxyMap = [
   { prefix: '/container/gcr/', target: 'https://gcr.io', host: 'gcr.io', sni: true },
   { prefix: '/container/quay/', target: 'https://quay.io', host: 'quay.io', sni: true },
   { prefix: '/container/k8s/', target: 'https://k8s.gcr.io', host: 'k8s.gcr.io', sni: true },
+  { prefix: '/container/ghcr/', target: 'https://ghcr.io', host: 'ghcr.io', sni: true },
   
   // 工具类镜像
   { prefix: '/tool/homebrew/', target: 'https://brew.sh', host: 'brew.sh', sni: true },
   { prefix: '/tool/anaconda/', target: 'https://repo.anaconda.com', host: 'repo.anaconda.com', sni: true },
-  { prefix: '/tool/flutter/', target: 'https://storage.googleapis.com/flutter_infra_release', host: 'storage.googleapis.com', sni: true }
+  { prefix: '/tool/flutter/', target: 'https://storage.googleapis.com/flutter_infra_release', host: 'storage.googleapis.com', sni: true },
+  { prefix: '/tool/winget/', target: 'https://cdn.winget.microsoft.com', host: 'cdn.winget.microsoft.com', sni: true },
+  { prefix: '/tool/chocolatey/', target: 'https://chocolatey.org', host: 'chocolatey.org', sni: true },
+  { prefix: '/tool/scoop/', target: 'https://scoop.sh', host: 'scoop.sh', sni: true },
+  { prefix: '/tool/msys2/', target: 'https://repo.msys2.org', host: 'repo.msys2.org', sni: true },
+  { prefix: '/tool/cygwin/', target: 'https://cygwin.com', host: 'cygwin.com', sni: true },
+  
+  // AUR (Arch User Repository)相关
+  { prefix: '/aur/', target: 'https://aur.archlinux.org', host: 'aur.archlinux.org', sni: true },
+  
+  // 开源项目镜像
+  { prefix: '/opensource/kernel/', target: 'https://www.kernel.org', host: 'www.kernel.org', sni: true },
+  { prefix: '/opensource/gnu/', target: 'https://ftp.gnu.org', host: 'ftp.gnu.org', sni: true },
+  { prefix: '/opensource/kde/', target: 'https://download.kde.org', host: 'download.kde.org', sni: true },
+  { prefix: '/opensource/gnome/', target: 'https://download.gnome.org', host: 'download.gnome.org', sni: true },
+  { prefix: '/opensource/apache/', target: 'https://downloads.apache.org', host: 'downloads.apache.org', sni: true },
+  { prefix: '/opensource/ffmpeg/', target: 'https://ffmpeg.org', host: 'ffmpeg.org', sni: true },
+  
+  // 浏览器相关
+  { prefix: '/browser/chrome/', target: 'https://dl.google.com/chrome', host: 'dl.google.com', sni: true },
+  { prefix: '/browser/firefox/', target: 'https://download.mozilla.org', host: 'download.mozilla.org', sni: true },
+  { prefix: '/browser/edge/', target: 'https://c2rsetup.officeapps.live.com/c2r/downloadEdge.aspx', host: 'c2rsetup.officeapps.live.com', sni: true }
 ];
 
 async function handleRequest(request) {
