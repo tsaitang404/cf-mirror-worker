@@ -56,7 +56,7 @@ code.language-shell {
 </style>
 </head>
 <body>
-<h1>Cloudflare Worker 镜像代理 <span style="font-size:0.7em;">(Universal Mirror Proxy)</span></h1>
+<h1>众像归一 - Cloudflare Worker 镜像代理 <span style="font-size:0.7em;">(Universal Mirror Proxy)</span></h1>
 <p>本项目支持语言包管理器、操作系统、容器工具等多种镜像源，部署于 Cloudflare Workers。<br>
 <em>This project provides a universal reverse proxy for various package managers, OS repos, and more, powered by Cloudflare Workers.</em></p>
 <hr>
@@ -125,20 +125,6 @@ code.language-shell {
     <div class="mirror-item"><a href="/tool/scoop/">Scoop</a></div>
     <div class="mirror-item"><a href="/tool/msys2/">MSYS2</a></div>
     <div class="mirror-item"><a href="/tool/cygwin/">Cygwin</a></div>
-  </div>
-</div>
-
-<div class="mirror-section">
-  <h3>社区源 / Community Repositories</h3>
-  <div class="mirror-grid">
-    <div class="mirror-item"><a href="/aur/">AUR (Arch User Repository)</a></div>
-  </div>
-</div>
-
-<div class="mirror-section">
-  <h3>其它镜像 / Other Mirrors</h3>
-  <div class="mirror-grid">
-    <div class="mirror-item"><a href="/misc/msdn/">MSDN (微软资源)</a></div>
   </div>
 </div>
 
@@ -474,34 +460,6 @@ https://mirrors.tsaitang.com/tool/cygwin/
 </div>
 </details>
 
-<details>
-<summary><strong>社区源 / Community Repositories</strong></summary>
-<div class="mirror-section">
-  <h4>AUR (Arch User Repository) 使用</h4>
-  <div class="command-container">
-  <pre><code class="language-shell"># 通过浏览器访问
-https://mirrors.tsaitang.com/aur/
-
-# 使用 yay 安装 AUR 包
-yay -S package_name
-# 注意：yay会自动从AUR下载源码，本镜像主要为Web界面提供服务
-</code></pre>
-  </div>
-</div>
-</details>
-
-<details>
-<summary><strong>其它镜像 / Other Mirrors</strong></summary>
-<div class="mirror-section">
-  <h4>MSDN 资源使用</h4>
-  <div class="command-container">
-  <pre><code class="language-shell"># 通过浏览器访问
-https://mirrors.tsaitang.com/misc/msdn/
-</code></pre>
-  </div>
-</div>
-</details>
-
 <!-- 可引用外部 JS 示例 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
 <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.js"></script>
@@ -583,13 +541,7 @@ const proxyMap = [
   { prefix: '/tool/chocolatey/', target: 'https://chocolatey.org', host: 'chocolatey.org', sni: true },
   { prefix: '/tool/scoop/', target: 'https://scoop.sh', host: 'scoop.sh', sni: true },
   { prefix: '/tool/msys2/', target: 'https://repo.msys2.org', host: 'repo.msys2.org', sni: true },
-  { prefix: '/tool/cygwin/', target: 'https://cygwin.com', host: 'cygwin.com', sni: true },
-  
-  // AUR (Arch User Repository)相关
-  { prefix: '/aur/', target: 'https://aur.archlinux.org', host: 'aur.archlinux.org', sni: true },
-  
-  // 其它镜像
-  { prefix: '/misc/msdn/', target: 'https://msdn.itellyou.cn', host: 'msdn.itellyou.cn', sni: true }
+  { prefix: '/tool/cygwin/', target: 'https://cygwin.com', host: 'cygwin.com', sni: true }
 ];
 
 async function handleRequest(request) {
