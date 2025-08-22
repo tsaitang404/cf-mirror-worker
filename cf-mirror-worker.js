@@ -136,29 +136,56 @@ code.language-shell {
 </div>
 
 <div class="mirror-section">
-  <h3>开源项目 / Open Source Projects</h3>
+  <h3>其它镜像 / Other Mirrors</h3>
   <div class="mirror-grid">
-    <div class="mirror-item"><a href="/opensource/kernel/">Linux Kernel</a></div>
-    <div class="mirror-item"><a href="/opensource/gnu/">GNU</a></div>
-    <div class="mirror-item"><a href="/opensource/kde/">KDE</a></div>
-    <div class="mirror-item"><a href="/opensource/gnome/">GNOME</a></div>
-    <div class="mirror-item"><a href="/opensource/apache/">Apache</a></div>
-    <div class="mirror-item"><a href="/opensource/ffmpeg/">FFmpeg</a></div>
+    <div class="mirror-item"><a href="/misc/msdn/">MSDN (微软资源)</a></div>
+  </div>
+</div>
+
+<h3>镜像源使用指南 / Mirror Usage Guide</h3>
+
+<div class="mirror-section">
+  <h3>语言包管理器设置 / Language Package Manager Config</h3>
+  
+  <h4>pip 源设置 / pip Mirror Config</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 推荐长期配置 / Recommended for persistent use
+pip config set global.index-url https://mirrors.tsaitang.com/language/pypi/
+# 或写入 ~/.pip/pip.conf / Or add to ~/.pip/pip.conf
+[global]
+index-url = https://mirrors.tsaitang.com/language/pypi/
+
+# 临时使用 / Temporary usage
+pip install -i https://mirrors.tsaitang.com/language/pypi/ package_name
+</code></pre>
+  </div>
+  
+  <h4>NPM 镜像使用方法 / How to use NPM Mirror</h4>
+  <div class="command-container">
+  <pre><code class="language-shell">npm config set registry https://mirrors.tsaitang.com/language/npm/
+# 或者临时使用
+npm install --registry=https://mirrors.tsaitang.com/language/npm/ 包名
+</code></pre>
+  </div>
+  
+  <h4>Maven 镜像使用方法 / How to use Maven Mirror</h4>
+  <div class="command-container">
+  <pre><code class="language-xml">&lt;mirror&gt;
+  &lt;id&gt;mirror&lt;/id&gt;
+  &lt;name&gt;maven mirror&lt;/name&gt;
+  &lt;url&gt;https://mirrors.tsaitang.com/language/maven/&lt;/url&gt;
+  &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+</code></pre>
   </div>
 </div>
 
 <div class="mirror-section">
-  <h3>浏览器 / Browsers</h3>
-  <div class="mirror-grid">
-    <div class="mirror-item"><a href="/browser/chrome/">Chrome</a></div>
-    <div class="mirror-item"><a href="/browser/firefox/">Firefox</a></div>
-    <div class="mirror-item"><a href="/browser/edge/">Edge</a></div>
-  </div>
-</div>
-
-<h3>常用系统镜像使用指南 / Popular OS Mirror Usage</h3>
-<div class="command-container">
-<pre><code class="language-shell"># 进入 yum 源目录 / Enter yum repo directory
+  <h3>操作系统设置 / OS Configuration</h3>
+  
+  <h4>CentOS 换源命令 / CentOS Mirror Switch</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 进入 yum 源目录 / Enter yum repo directory
 cd /etc/yum.repos.d/
 # 注释 mirrorlist / Comment out mirrorlist
 sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
@@ -166,11 +193,11 @@ sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 sed -i 's|baseurl=http://.*centos.org|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
 sed -i 's|#baseurl=https://mirrors.tsaitang.com/system/centos|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
 </code></pre>
-</div>
-
-<h3>Arch Linux 和衍生版使用指南 / Arch Linux Usage</h3>
-<div class="command-container">
-<pre><code class="language-shell"># Arch Linux 官方源
+  </div>
+  
+  <h4>Arch Linux 和衍生版使用指南 / Arch Linux Usage</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># Arch Linux 官方源
 # 编辑 /etc/pacman.d/mirrorlist，添加：
 Server = https://mirrors.tsaitang.com/system/archlinux/$repo/os/$arch
 
@@ -187,26 +214,51 @@ Server = https://mirrors.tsaitang.com/system/blackarch/$repo/$arch
 # 更新包数据库
 sudo pacman -Syy
 </code></pre>
+  </div>
+  
+  <h4>Ubuntu apt 配置 / Ubuntu apt Configuration</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 sources.list
+sudo sed -i 's@http://.*archive.ubuntu.com@https://mirrors.tsaitang.com/system/ubuntu@g' /etc/apt/sources.list
+sudo sed -i 's@http://.*security.ubuntu.com@https://mirrors.tsaitang.com/system/ubuntu@g' /etc/apt/sources.list
+</code></pre>
+  </div>
+  
+  <h4>Debian apt 配置 / Debian apt Configuration</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 sources.list
+sudo sed -i 's/deb.debian.org/mirrors.tsaitang.com\/system\/debian/g' /etc/apt/sources.list
+</code></pre>
+  </div>
+  
+  <h4>Alpine apk 配置 / Alpine apk Configuration</h4>
+  <div class="command-container">
+  <pre><code class="language-shell"># 替换 repositories
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.tsaitang.com\/system\/alpine/g' /etc/apk/repositories
+</code></pre>
+  </div>
 </div>
 
-<h3>WinGet 使用指南 / WinGet Usage</h3>
-<div class="command-container">
-<pre><code class="language-powershell"># 设置 WinGet 源
+<div class="mirror-section">
+  <h3>容器与工具设置 / Container & Tool Config</h3>
+  
+  <h4>Docker 镜像使用方法 / How to use Docker Mirror</h4>
+  <div class="command-container">
+  <pre><code class="language-json">{
+  "registry-mirrors": ["https://mirrors.tsaitang.com/container/docker/"]
+}
+</code></pre>
+  </div>
+  
+  <h4>WinGet 使用指南 / WinGet Usage</h4>
+  <div class="command-container">
+  <pre><code class="language-powershell"># 设置 WinGet 源
 winget source add -n "Mirror" -a "https://mirrors.tsaitang.com/tool/winget"
 
 # 从镜像源安装软件
 winget install -s "Mirror" 软件名
 </code></pre>
-</div>
-
-<h3>pip 源设置 / pip Mirror Config</h3>
-<div class="command-container">
-<pre><code class="language-shell"># 推荐长期配置 / Recommended for persistent use
-pip config set global.index-url https://mirrors.tsaitang.com/language/pypi/
-# 或写入 ~/.pip/pip.conf / Or add to ~/.pip/pip.conf
-[global]
-index-url = https://mirrors.tsaitang.com/language/pypi/
-</code></pre>
+  </div>
 </div>
 
 <!-- 可引用外部 JS 示例 -->
@@ -345,18 +397,8 @@ const proxyMap = [
   // AUR (Arch User Repository)相关
   { prefix: '/aur/', target: 'https://aur.archlinux.org', host: 'aur.archlinux.org', sni: true },
   
-  // 开源项目镜像
-  { prefix: '/opensource/kernel/', target: 'https://www.kernel.org', host: 'www.kernel.org', sni: true },
-  { prefix: '/opensource/gnu/', target: 'https://ftp.gnu.org', host: 'ftp.gnu.org', sni: true },
-  { prefix: '/opensource/kde/', target: 'https://download.kde.org', host: 'download.kde.org', sni: true },
-  { prefix: '/opensource/gnome/', target: 'https://download.gnome.org', host: 'download.gnome.org', sni: true },
-  { prefix: '/opensource/apache/', target: 'https://downloads.apache.org', host: 'downloads.apache.org', sni: true },
-  { prefix: '/opensource/ffmpeg/', target: 'https://ffmpeg.org', host: 'ffmpeg.org', sni: true },
-  
-  // 浏览器相关
-  { prefix: '/browser/chrome/', target: 'https://dl.google.com/chrome', host: 'dl.google.com', sni: true },
-  { prefix: '/browser/firefox/', target: 'https://download.mozilla.org', host: 'download.mozilla.org', sni: true },
-  { prefix: '/browser/edge/', target: 'https://c2rsetup.officeapps.live.com/c2r/downloadEdge.aspx', host: 'c2rsetup.officeapps.live.com', sni: true }
+  // 其它镜像
+  { prefix: '/misc/msdn/', target: 'https://msdn.itellyou.cn', host: 'msdn.itellyou.cn', sni: true }
 ];
 
 async function handleRequest(request) {
