@@ -4,7 +4,7 @@ addEventListener('fetch', event => {
 
 const HTML = `
 <html><body>
-<h1>Hello, Here is my mirror proxy!</h1><br>
+<h1>Cloudflare Worker 镜像代理</h1>
 <hr>
 <h3>常用路径</h3>
 <ul>
@@ -13,50 +13,22 @@ const HTML = `
   <li>CentOS Stream 镜像：<a href="/system/centos-stream/">/system/centos-stream/</a></li>
 </ul>
 <h3>CentOS 换源命令</h3>
-<pre>cd /etc/yum.repos.d/
+<pre><code>cd /etc/yum.repos.d/
 sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 sed -i 's|baseurl=http://.*centos.org|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
 sed -i 's|#baseurl=https://mirrors.tsaitang.com/system/centos|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
-</pre>
+</code></pre>
 <h3>pip 源设置</h3>
-<pre>pip config set global.index-url https://mirrors.tsaitang.com/language/pypi/
-</pre>
+<pre><code>pip config set global.index-url https://mirrors.tsaitang.com/language/pypi/
+</code></pre>
 <h3>临时使用 pip 镜像</h3>
-<pre>pip install -i https://mirrors.tsaitang.com/language/pypi/ package_name
-</pre>
+<pre><code>pip install -i https://mirrors.tsaitang.com/language/pypi/ package_name
+</code></pre>
 <hr>
 <small><a href="https://github.com/tsaitang404/cf-mirror-worker">GitHub</a></small>
 </body></html>
-</body></html>
-    <html><body>
-    <h1>Cloudflare Worker 万能镜像代理</h1>
-    <hr>
-    <h3>主要功能</h3>
-    <ul>
-      <li>HTTP/HTTPS 自动跳转</li>
-      <li>PyPI 镜像代理：<a href="/language/pypi/simple/pip/">/language/pypi/simple/pip/</a></li>
-      <li>CentOS 镜像代理：<a href="/system/centos/7.9.2009/os/x86_64/">/system/centos/7.9.2009/os/x86_64/</a></li>
-      <li>CentOS Stream 镜像代理：<a href="/system/centos-stream/">/system/centos-stream/</a></li>
-    </ul>
-    <h3>换源示例</h3>
-    <b>CentOS/RPM 换源：</b><br>
-    <pre>cd /etc/yum.repos.d/
-    sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-    sed -i 's|baseurl=http://.*centos.org|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*
-    sed -i 's|#baseurl=https://mirrors.tsaitang.com/system/centos|baseurl=https://mirrors.tsaitang.com/system/centos|g' /etc/yum.repos.d/CentOS-*</pre>
-    <b>pip 换源：</b><br>
-    <pre>pip install -i https://mirrors.tsaitang.com/language/pypi/ package_name</pre>
-    <h3>常用路径</h3>
-    <ul>
-      <li>首页：<a href="/">/</a></li>
-      <li>PyPI 镜像：<a href="/language/pypi/simple/pip/">/language/pypi/simple/pip/</a></li>
-      <li>CentOS 镜像：<a href="/system/centos/7.9.2009/os/x86_64/">/system/centos/7.9.2009/os/x86_64/</a></li>
-      <li>CentOS Stream 镜像：<a href="/system/centos-stream/">/system/centos-stream/</a></li>
-    </ul>
-    <hr>
-    <small>Powered by Cloudflare Worker | <a href="https://github.com/tsaitang404/cf-mirror-worker">GitHub</a></small>
-    </body></html>
 `;
+
 const proxyMap = [
   { prefix: '/language/pypi/', target: 'https://pypi.org/simple', host: 'pypi.org', sni: true },
   { prefix: '/system/centos/', target: 'http://vault.centos.org', host: 'vault.centos.org' },
@@ -106,7 +78,6 @@ async function handleRequest(request) {
 
 // 代理函数
 async function proxy(request, target, extraHeaders = {}) {
-  // ...existing code...
   const reqHeaders = new Headers(request.headers);
   reqHeaders.set('Host', extraHeaders.host);
   reqHeaders.set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36');
@@ -128,8 +99,6 @@ async function proxy(request, target, extraHeaders = {}) {
   };
   try {
     const response = await fetch(target, init);
-    // ...existing code...
-    // 添加 CORS 头部
     const newHeaders = new Headers(response.headers);
     newHeaders.set('Access-Control-Allow-Origin', '*');
     return new Response(await response.body, {
